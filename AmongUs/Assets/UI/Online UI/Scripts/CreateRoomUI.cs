@@ -23,6 +23,49 @@ public class CreateRoomUI : MonoBehaviour
         UpdateCrewImages();
     }
 
+    public void UpdateImposterCount(int count)      // 임포스터의 수에 맞게 버튼프레임을 보여주는 함수
+    {
+        roomData.imposterCount = count;
+
+        for(int i = 0; i < imposterCountButtons.Count; i++)
+        {
+            if (i == count - 1)
+            {
+                imposterCountButtons[i].image.color = new Color(1f, 1f, 1f, 1f);
+            }
+            else
+            {
+                imposterCountButtons[i].image.color = new Color(1f, 1f, 1f, 0f);
+            }
+        }
+
+        // 임포스터 수에 따른 최대인원 수
+        int limitMaxPlayer = count == 1 ? 4 : count == 2 ? 7 : 9;
+        if(roomData.maxPlayerCount < limitMaxPlayer)
+        {
+            UpdateMaxPlayerCount(limitMaxPlayer);
+        }
+        else
+        {
+            UpdateMaxPlayerCount(roomData.maxPlayerCount);
+        }
+
+        for ( int i=0; i<maxPlayerCountButtons.Count; i++)
+        {
+            var text = maxPlayerCountButtons[i].GetComponentInChildren<Text>();
+            if(i < limitMaxPlayer - 4)
+            {
+                maxPlayerCountButtons[i].interactable = false;
+                text.color = Color.gray;
+            }
+            else
+            {
+                maxPlayerCountButtons[i].interactable = true;
+                text.color = Color.white;
+            }
+        }
+    }
+
     public void UpdateMaxPlayerCount(int count)     // 인원수에 맞게 버튼을 보여주는 함수
     {
         roomData.maxPlayerCount = count;
