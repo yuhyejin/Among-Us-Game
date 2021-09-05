@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameRoomSettingsUI : MonoBehaviour
+public class GameRoomSettingsUI : SettingsUI
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ExitGameRoom()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var manager = AmongUsRoomManager.singleton;
+        if(manager.mode == Mirror.NetworkManagerMode.Host)
+        {
+            manager.StopHost();
+        }
+        else if(manager.mode == Mirror.NetworkManagerMode.ClientOnly)
+        {
+            manager.StopClient();
+        }
     }
 }
