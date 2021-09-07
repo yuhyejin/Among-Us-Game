@@ -5,6 +5,8 @@ using Mirror;
 
 public class CharacterMover: NetworkBehaviour
 {
+    private Animator animator;
+
     public bool isMoveable;
 
     [SyncVar] public float speed = 2f;
@@ -12,6 +14,7 @@ public class CharacterMover: NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         if (hasAuthority)
         {
             Camera cam = Camera.main;
@@ -30,12 +33,14 @@ public class CharacterMover: NetworkBehaviour
     {
         if(hasAuthority && isMoveable)
         {
+            bool isMove = false;
             if(PlayerSettings.controlType == EControlType.KeyboardMouse)
             {
                 Vector3 dir = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f), 1f);
                 if (dir.x < 0f) transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
                 else if (dir.x > 0f) transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 transform.position += dir * speed * Time.deltaTime;
+                isMove = dir.magnitude != 0f;
             }
             else
             {
@@ -45,8 +50,10 @@ public class CharacterMover: NetworkBehaviour
                     if (dir.x < 0f) transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
                     else if (dir.x > 0f) transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                     transform.position += dir * speed * Time.deltaTime;
+                    isMove = dir.magnitude != 0f;
                 }
             }
+            animator.SetBool("isMove", isMove);
         }
     }
 }
