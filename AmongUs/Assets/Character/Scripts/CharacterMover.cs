@@ -32,7 +32,7 @@ public class CharacterMover: NetworkBehaviour
         {
             if(PlayerSettings.controlType == EControlType.KeyboardMouse)
             {
-                Vector3 dir = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("vertical"), 0f), 1f);
+                Vector3 dir = Vector3.ClampMagnitude(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f), 1f);
                 if (dir.x < 0f) transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
                 else if (dir.x > 0f) transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 transform.position += dir * speed * Time.deltaTime;
