@@ -23,7 +23,7 @@ public class LobyCharacterMover : CharacterMover
     {
         if (hasAuthority)
         {
-            isMoveable = true;
+            IsMoveable = true;
         }
     }
 }

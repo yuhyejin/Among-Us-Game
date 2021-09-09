@@ -27,7 +27,7 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
     [SyncVar(hook =nameof(SetPlayerColor_Hook))] public EPlayerColor playerColor;     //해당 플레이어 색상을 지정할 변수
     public void SetPlayerColor_Hook(EPlayerColor oldColor, EPlayerColor newColor)
     {
-        LobbyUIManager.Instance.CustomizeUI.UpdateColorButton();
+        LobbyUIManager.Instance.CustomizeUI.UpdateSelectColorButton(newColor);
     }
 
     public CharacterMover lobbyPlayerCharacter;
@@ -39,6 +39,14 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
         if (isServer)
         {
             SpawnLobbyPlayerCharacter();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(LobbyUIManager.Instance != null)
+        {
+            LobbyUIManager.Instance.CustomizeUI.UpdateUnSelectColorButton(playerColor);
         }
     }
 
@@ -74,9 +82,12 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
         }
         playerColor = color;
 
+        var spawnPositions = FindObjectOfType<SpawnPositions>();
+        int index = spawnPositions.Index;
         Vector3 spawnPos = FindObjectOfType<SpawnPositions>().GetSpawnPosition();
 
         var playerCharacter = Instantiate(AmongUsRoomManager.singleton.spawnPrefabs[0], spawnPos, Quaternion.identity).GetComponent<LobyCharacterMover>();
+        playerCharacter.transform.localScale = index < 5 ? new Vector3(0.5f, 0.5f, 1f) : new Vector3(-0.5f, 0.5f, 1f);
         NetworkServer.Spawn(playerCharacter.gameObject, connectionToClient);
         playerCharacter.ownerNetId = netId;
         playerCharacter.playerColor = color;

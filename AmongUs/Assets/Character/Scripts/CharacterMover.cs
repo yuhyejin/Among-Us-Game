@@ -7,7 +7,19 @@ public class CharacterMover: NetworkBehaviour
 {
     private Animator animator;
 
-    public bool isMoveable;
+    private bool isMoveable;
+    public bool IsMoveable
+    {
+        get { return isMoveable; }
+        set
+        {
+            if (!value)
+            {
+                animator.SetBool("isMove", false);
+            }
+            isMoveable = value;
+        }
+    }
 
     [SyncVar] public float speed = 2f;
 
@@ -46,7 +58,7 @@ public class CharacterMover: NetworkBehaviour
     }
     public void Move()
     {
-        if(hasAuthority && isMoveable)
+        if(hasAuthority && IsMoveable)
         {
             bool isMove = false;
             if(PlayerSettings.controlType == EControlType.KeyboardMouse)
