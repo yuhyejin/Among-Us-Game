@@ -148,7 +148,7 @@ public class GameRuleStore : NetworkBehaviour
         anonymousVotes = value;
     }
 
-    [SyncVar (hook = nameof(SetMeetingsTime_Hook))]
+    [SyncVar (hook = nameof(SetMoveSpeed_Hook))]
     private float moveSpeed;
     [SerializeField]
     private Text moveSpeedText;
