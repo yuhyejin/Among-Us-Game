@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Rendering;
 
 public class AmongUsRoomPlayer : NetworkRoomPlayer
 {
@@ -41,12 +42,15 @@ public class AmongUsRoomPlayer : NetworkRoomPlayer
         {
             SpawnLobbyPlayerCharacter();
         }
+
+        LobbyUIManager.Instance.UpdatePlayerCount();
     }
 
     private void OnDestroy()
     {
         if(LobbyUIManager.Instance != null)
         {
+            LobbyUIManager.Instance.UpdatePlayerCount();
             LobbyUIManager.Instance.CustomizeUI.UpdateUnselectColorButton(playerColor);
         }
     }

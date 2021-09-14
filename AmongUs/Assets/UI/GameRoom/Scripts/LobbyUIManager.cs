@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Mirror;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -14,6 +15,15 @@ public class LobbyUIManager : MonoBehaviour
 
     [SerializeField] private Button useButton;
     [SerializeField] private Sprite originUseButtonSprite;
+
+    [SerializeField] private Text playerCountText;
+
+    public void UpdatePlayerCount()
+    {
+        var manager = NetworkManager.singleton as AmongUsRoomManager;
+        var players = FindObjectOfType<AmongUsRoomPlayer>();
+        playerCountText.text = string.Format("{0}/{1}", players.Length, manager.maxConnections);
+    }
 
     private void Awake()
     {
