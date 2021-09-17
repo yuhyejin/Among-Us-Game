@@ -6,6 +6,11 @@ using Mirror;
 
 public class CustomaizeUI : MonoBehaviour
 {
+    [SerializeField] private Button colorButton;
+    [SerializeField] GameObject colorPanel;
+    [SerializeField] Button gameRuleButton;
+    [SerializeField] GameObject gameRulePanel;
+
     [SerializeField] private Image characterPreview;
     [SerializeField] private List<ColorSelectButton> colorSelectButtons;
 
@@ -16,9 +21,28 @@ public class CustomaizeUI : MonoBehaviour
         characterPreview.material = inst;
     }
 
+    public void ActiveColorPanel()
+    {
+        colorButton.image.color = new Color(0f, 0f, 0f, 0.75f);
+        gameRuleButton.image.color = new Color(0f, 0f, 0f, 0.25f);
+
+        colorPanel.SetActive(true);
+        gameRulePanel.SetActive(false);
+    }
+
+    public void ActiveGameRulePanel()
+    {
+        colorButton.image.color = new Color(0f, 0f, 0f, 0.25f);
+        gameRuleButton.image.color = new Color(0f, 0f, 0f, 0.75f);
+
+        colorPanel.SetActive(false);
+        gameRulePanel.SetActive(true);
+    }
+
     private void OnEnable()
     {
         UpdateColorButton();
+        ActiveColorPanel();
 
         var roomSlots = (NetworkManager.singleton as AmongUsRoomManager).roomSlots;
         foreach (var player in roomSlots)
